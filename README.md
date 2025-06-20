@@ -1,2 +1,2 @@
 # testes-co-author
-teste
+test
