@@ -35,6 +35,25 @@ X_train, X_test, y_train, y_test = train_test_split(
 # Salva os arrays para uso posterior
 np.savez('dataset_preprocessado.npz', X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
 
-# Exibe informações sobre o dataset
+# Exibe as quantidades de imagens do dataset
 print(f"Imagens carregadas: {len(X)}")
 print(f"Treinamento: {len(X_train)} | Teste: {len(X_test)}")
+
+# distribuição de imagens por classe no dataset completo
+classes, counts = np.unique(y, return_counts=True)
+print("Distribuição de imagens por classe (geral):")
+for cls, count in zip(classes, counts):
+    print(f"Classe {cls}: {count} imagens")
+# -------------------------------------------------------
+
+#distribuição de imagens por classe nos conjuntos de treino e teste separados
+print("\nDistribuição no conjunto de treinamento:")
+classes, counts = np.unique(y_train, return_counts=True)
+for cls, count in zip(classes, counts):
+    print(f"Classe {cls}: {count} imagens")
+
+print("\nDistribuição no conjunto de teste:")
+classes, counts = np.unique(y_test, return_counts=True)
+for cls, count in zip(classes, counts):
+    print(f"Classe {cls}: {count} imagens")
+# --------------------------------------------------------------------------
