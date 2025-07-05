@@ -15,7 +15,7 @@ for label in range(25):
     label_dir = os.path.join(base_dir, str(label)) # caminho da pasta de cada classe
     #percorre cada imagem na pasta da classe
     for filename in os.listdir(label_dir):
-        if filename.endswith('.jpeg'): #verifica se o arquivo é uma imagem JPEG
+        if filename.endswith(('.jpeg','.jpg')): #verifica se o arquivo é uma imagem JPEG ou JPG
             img_path = os.path.join(label_dir, filename) #caminho da imagem
             img = Image.open(img_path).convert('L')         #converte para escala de cinza
             img = img.resize(img_size)                      #redimensiona
