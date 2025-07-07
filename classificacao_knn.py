@@ -8,6 +8,8 @@ import seaborn as sns
 from PIL import Image, ImageEnhance
 import random
 
+import graficos_knn
+
 # parâmetros
 k = 5
 num_iteracoes = 10
@@ -124,6 +126,7 @@ for i in range(num_iteracoes):
             relatorio_por_classe[classe]['recall'].append(report[classe]['recall'])
             relatorio_por_classe[classe]['f1-score'].append(report[classe]['f1-score'])
             relatorio_por_classe[classe]['support'] += report[classe]['support']
+    # -------------------------------------------------------
 
 #resultados finais
 print("=== MÉDIAS APÓS 10 ITERAÇÕES ===")
@@ -135,13 +138,15 @@ print(f"F1-Score médio : {np.mean(f1_scores):.4f}")
 # cálculo da média do relatório de classificação e salva em arquivo txt
 arquivo_txt_relatorio = open('relatorio_classificacao.txt', 'w')
 print("=== MEDIA DAS METRICAS POR CLASSE (10 iteracoes) ===", file=arquivo_txt_relatorio)
-print(f"{'Classe':7} | Precisao | Revocacao | F1-Score | Suporte", file=arquivo_txt_relatorio)
+print("========== Dimensao das imagens:", dimensao_imagem, "x", dimensao_imagem, "==========" , file=arquivo_txt_relatorio)
+print("=============== Com Data Augmentation no Treino ==============" if data_augmentation_flag else "=============== Sem Data Augmentation ==============", file=arquivo_txt_relatorio)
+print(f"{'Classe':7} | {'Precisao':9} | {'Revocacao':9} | {'F1-Score':9} | {'Suporte':9}", file=arquivo_txt_relatorio)
 for classe in sorted(relatorio_por_classe.keys(), key=int):
     p = np.mean(relatorio_por_classe[classe]['precision'])
     r = np.mean(relatorio_por_classe[classe]['recall'])
     f = np.mean(relatorio_por_classe[classe]['f1-score'])
     s = relatorio_por_classe[classe]['support']
-    print(f"{classe:<7} | {p:.2f} | {r:.2f} | {f:.2f} | {s}", file=arquivo_txt_relatorio)
+    print(f"{classe:<7} | {p:<9.2f} | {r:<9.2f} | {f:<9.2f} | {s:<9.0f}", file=arquivo_txt_relatorio)
 # -----------------------------------------------------------------------
 
 #matriz de confusão somada
@@ -158,3 +163,5 @@ plt.xlabel("Classe Predita")
 plt.ylabel("Classe Verdadeira")
 plt.tight_layout(rect=[0, 0, 1, 0.98])
 plt.show()
+
+graficos_knn.plotar_metricas_por_classe(relatorio_por_classe)
