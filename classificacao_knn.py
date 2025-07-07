@@ -1,7 +1,8 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, confusion_matrix)
+from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report)
+from collections import defaultdict
 import matplotlib.pyplot as plt
 import seaborn as sns
 from PIL import Image, ImageEnhance
@@ -14,6 +15,8 @@ TARGET_POR_CLASSE = 300
 
 data_augmentation_flag = 0 # flag para identificar se o data augmentation está sendo realizado
 dimensao_imagem = 32
+
+relatorio_por_classe = defaultdict(lambda: {'precision': [], 'recall': [], 'f1-score': [], 'support': 0}) # dicionário para armazenar as métricas por classe para exibição do classification report final
 
 # carrega o dataset pré-processado
 data = np.load('dataset_preprocessado.npz')
@@ -86,7 +89,7 @@ for i in range(num_iteracoes):
     # achata as imagens para usar no KNN
     X_train_flat = X_train.reshape((X_train.shape[0], -1))
     X_test_flat = X_test.reshape((X_test.shape[0], -1))
-
+    
     #treino do KNN
     knn = KNeighborsClassifier(n_neighbors=k)
     knn.fit(X_train_flat, y_train)
@@ -112,12 +115,34 @@ for i in range(num_iteracoes):
     print(f"Revocação: {rec:.4f}")
     print(f"F1-Score : {f1:.4f}\n")
 
+    # construção do relatório de classificação
+    report = classification_report(y_test, y_pred, labels=np.arange(25), output_dict=True, zero_division=0)
+
+    for classe in map(str, range(25)):
+        if classe in report:
+            relatorio_por_classe[classe]['precision'].append(report[classe]['precision'])
+            relatorio_por_classe[classe]['recall'].append(report[classe]['recall'])
+            relatorio_por_classe[classe]['f1-score'].append(report[classe]['f1-score'])
+            relatorio_por_classe[classe]['support'] += report[classe]['support']
+
 #resultados finais
 print("=== MÉDIAS APÓS 10 ITERAÇÕES ===")
 print(f"Acurácia média : {np.mean(acuracias):.4f}")
 print(f"Precisão média : {np.mean(precisoes):.4f}")
 print(f"Revocação média: {np.mean(revocoes):.4f}")
 print(f"F1-Score médio : {np.mean(f1_scores):.4f}")
+
+# cálculo da média do relatório de classificação e salva em arquivo txt
+arquivo_txt_relatorio = open('relatorio_classificacao.txt', 'w')
+print("=== MEDIA DAS METRICAS POR CLASSE (10 iteracoes) ===", file=arquivo_txt_relatorio)
+print(f"{'Classe':7} | Precisao | Revocacao | F1-Score | Suporte", file=arquivo_txt_relatorio)
+for classe in sorted(relatorio_por_classe.keys(), key=int):
+    p = np.mean(relatorio_por_classe[classe]['precision'])
+    r = np.mean(relatorio_por_classe[classe]['recall'])
+    f = np.mean(relatorio_por_classe[classe]['f1-score'])
+    s = relatorio_por_classe[classe]['support']
+    print(f"{classe:<7} | {p:.2f} | {r:.2f} | {f:.2f} | {s}", file=arquivo_txt_relatorio)
+# -----------------------------------------------------------------------
 
 #matriz de confusão somada
 cm_total = np.sum(matrizes_confusao, axis=0)
