@@ -4,21 +4,24 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import (accuracy_score, precision_score, recall_score, f1_score, confusion_matrix)
 import matplotlib.pyplot as plt
 import seaborn as sns
+from PIL import Image, ImageEnhance
+import random
 
-#carrega o dataset pré-processado
+# carrega o dataset pré-processado
 data = np.load('dataset_preprocessado.npz')
 X_train_total = data['X_train']
 y_train_total = data['y_train']
 X_test_total = data['X_test']
 y_test_total = data['y_test']
 
-#junta tudo para reembaralhar a cada iteração
+# junta tudo para reembaralhar nas iterações
 X_total = np.concatenate((X_train_total, X_test_total), axis=0)
 y_total = np.concatenate((y_train_total, y_test_total), axis=0)
 
-#parametros do k-NN
+# parâmetros
 k = 3
 num_iteracoes = 10
+TARGET_POR_CLASSE = 300
 
 acuracias = []
 precisoes = []
@@ -31,19 +34,60 @@ print(f"Iniciando treino e teste com k-NN (k = {k})...\n")
 for i in range(num_iteracoes):
     print(f"--- Iteração {i+1} ---")
     
-    X_train, X_test, y_train, y_test = train_test_split(X_total, y_total, test_size=0.2, stratify=y_total, random_state=i) # utiliza i no random_state para garantir reprodutibilidade 
+    #divide os dados
+    X_train, X_test, y_train, y_test = train_test_split(
+        X_total, y_total, test_size=0.2, stratify=y_total, random_state=i
+    )
 
-    # achata as imagens
+    # Data augmentation somente no conjunto de treino
+    X_train_aug = []
+    y_train_aug = []
+
+    for label in np.unique(y_train): # itera sobre cada classe
+        imagens_classe = [
+            Image.fromarray((img.reshape(32, 32)).astype(np.uint8)) # converte para imagem
+            for img, y in zip(X_train, y_train) if y == label # filtra imagens da classe atual
+        ]
+        
+        while len(imagens_classe) < TARGET_POR_CLASSE: # enquanto não atingir o target
+            img_base = random.choice(imagens_classe)
+            nova = img_base.copy()
+            tipo = random.randint(1, 4)
+
+            if tipo == 1:
+                nova = img_base.rotate(random.randint(-10, 10))
+            elif tipo == 2:
+                enhancer = ImageEnhance.Brightness(img_base)
+                nova = enhancer.enhance(random.uniform(0.5, 1.5))
+            elif tipo == 3:
+                enhancer = ImageEnhance.Contrast(img_base)
+                nova = enhancer.enhance(random.uniform(0.5, 1.5))
+            elif tipo == 4:
+                enhancer = ImageEnhance.Sharpness(img_base)
+                nova = enhancer.enhance(random.uniform(0.5, 1.5))
+
+            imagens_classe.append(nova)
+
+        for img in imagens_classe:
+            img_np = np.array(img)
+            X_train_aug.append(img_np.reshape(32, 32, 1)) # mantém a dimensão original
+            y_train_aug.append(label)
+
+    X_train = np.array(X_train_aug)
+    y_train = np.array(y_train_aug)
+    # -------------------------------------------------------
+
+    # Achata as imagens para usar no KNN
     X_train_flat = X_train.reshape((X_train.shape[0], -1))
     X_test_flat = X_test.reshape((X_test.shape[0], -1))
 
-    # treinamento do knn
+    #treino do KNN
     knn = KNeighborsClassifier(n_neighbors=k)
     knn.fit(X_train_flat, y_train)
 
     y_pred = knn.predict(X_test_flat)
 
-    # cálculo das metricas
+    #métricas
     acc = accuracy_score(y_test, y_pred)
     prec = precision_score(y_test, y_pred, average='macro', zero_division=0)
     rec = recall_score(y_test, y_pred, average='macro', zero_division=0)
@@ -54,27 +98,25 @@ for i in range(num_iteracoes):
     revocoes.append(rec)
     f1_scores.append(f1)
 
-    # matriz de confusão
     cm = confusion_matrix(y_test, y_pred, labels=np.arange(25))
     matrizes_confusao.append(cm)
 
     print(f"Acurácia : {acc:.4f}")
     print(f"Precisão : {prec:.4f}")
     print(f"Revocação: {rec:.4f}")
-    print(f"F1-Score : {f1:.4f}")
-    print()
+    print(f"F1-Score : {f1:.4f}\n")
 
-#exibição das médias das métricas
+#resultados finais
 print("=== MÉDIAS APÓS 10 ITERAÇÕES ===")
 print(f"Acurácia média : {np.mean(acuracias):.4f}")
 print(f"Precisão média : {np.mean(precisoes):.4f}")
 print(f"Revocação média: {np.mean(revocoes):.4f}")
 print(f"F1-Score médio : {np.mean(f1_scores):.4f}")
 
-#soma das matrizes elemento por elemento para ver o padrão geral
+#matriz de confusão somada
 cm_total = np.sum(matrizes_confusao, axis=0)
 
-#plot da matriz de confusão final
+#plot da matriz de confusão
 plt.figure(figsize=(12, 10))
 sns.heatmap(cm_total, annot=True, fmt='d', cmap='Blues')
 plt.title("Matriz de Confusão - Soma das 10 Iterações")
