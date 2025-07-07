@@ -1,13 +1,11 @@
 import os
 import numpy as np
-from PIL import Image, ImageEnhance
+from PIL import Image
 from sklearn.model_selection import train_test_split
-import random
 
 # caminho para os diretórios das classes (0 a 24)
 base_dir = 'dataset'
 img_size = (32, 32)  # tamanho padronizado (32x32)
-TARGET_IMAGENS_POR_CLASSE = 300  # === CÓDIGO NOVO: meta de imagens por classe
 
 X = []  # lista para armazenar as imagens pré-processadas
 y = []  # lista para armazenar os rótulos
@@ -23,29 +21,6 @@ for label in range(25):
             img = Image.open(img_path).convert('L')
             img = img.resize(img_size)
             imagens_classe.append(img)
-
-    # Geração de imagens adicionais para balancear o dataset
-    '''
-    while len(imagens_classe) < TARGET_IMAGENS_POR_CLASSE:
-        img_base = random.choice(imagens_classe)  # escolhe uma imagem aleatória da classe
-        variacao = random.randint(1, 5)  # número de variações a serem criadas
-        nova = img_base.copy()  # cria uma cópia da imagem base
-
-        if variacao == 1:
-            nova = img_base.rotate(random.randint(-10, 10))
-        elif variacao == 2:
-            enhancer = ImageEnhance.Brightness(img_base) # ajuste de brilho
-            nova = enhancer.enhance(random.uniform(0.5, 1.5))
-        elif variacao == 3:
-            enhancer = ImageEnhance.Contrast(img_base) # ajuste de contraste
-            nova = enhancer.enhance(random.uniform(0.5, 1.5))
-        elif variacao == 4:
-            enhancer = ImageEnhance.Sharpness(img_base) # ajuste de nitidez
-            nova = enhancer.enhance(random.uniform(0.5, 1.5))
-
-        imagens_classe.append(nova)
-    '''
-    # -------------------------------------------------------
 
     for img in imagens_classe:
         img_array = np.array(img)
