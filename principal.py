@@ -3,9 +3,11 @@ import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
 
+dimensao_imagem = 32
+
 # caminho para os diretórios das classes (0 a 24)
 base_dir = 'dataset'
-img_size = (32, 32)  # tamanho padronizado (32x32)
+img_size = (dimensao_imagem, dimensao_imagem)  # tamanho padronizado pela var dimensao_imagem
 
 X = []  # lista para armazenar as imagens pré-processadas
 y = []  # lista para armazenar os rótulos
@@ -28,10 +30,10 @@ for label in range(25):
         y.append(label)
 
 # conversão das listas para numpy arrays
-X = np.array(X).reshape(-1, 32, 32, 1)
+X = np.array(X).reshape(-1, dimensao_imagem, dimensao_imagem, 1)
 y = np.array(y)
 
-# divisão treino/teste (80/20) com estratificação
+# divisão treino/teste (80/20)
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
