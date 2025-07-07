@@ -7,6 +7,14 @@ import seaborn as sns
 from PIL import Image, ImageEnhance
 import random
 
+# parâmetros
+k = 5
+num_iteracoes = 10
+TARGET_POR_CLASSE = 300
+
+data_augmentation_flag = 0 # flag para identificar se o data augmentation está sendo realizado
+dimensao_imagem = 32
+
 # carrega o dataset pré-processado
 data = np.load('dataset_preprocessado.npz')
 X_train_total = data['X_train']
@@ -18,11 +26,7 @@ y_test_total = data['y_test']
 X_total = np.concatenate((X_train_total, X_test_total), axis=0)
 y_total = np.concatenate((y_train_total, y_test_total), axis=0)
 
-# parâmetros
-k = 3
-num_iteracoes = 10
-TARGET_POR_CLASSE = 300
-
+# inicializa listas para armazenar resultados
 acuracias = []
 precisoes = []
 revocoes = []
@@ -40,44 +44,46 @@ for i in range(num_iteracoes):
     )
 
     # Data augmentation somente no conjunto de treino
-    X_train_aug = []
-    y_train_aug = []
+    if data_augmentation_flag:
+        X_train_aug = []
+        y_train_aug = []
 
-    for label in np.unique(y_train): # itera sobre cada classe
-        imagens_classe = [
-            Image.fromarray((img.reshape(32, 32)).astype(np.uint8)) # converte para imagem
-            for img, y in zip(X_train, y_train) if y == label # filtra imagens da classe atual
-        ]
-        
-        while len(imagens_classe) < TARGET_POR_CLASSE: # enquanto não atingir o target
-            img_base = random.choice(imagens_classe)
-            nova = img_base.copy()
-            tipo = random.randint(1, 4)
+        for label in np.unique(y_train): # itera sobre cada classe
+            imagens_classe = [
+                Image.fromarray((img.reshape(dimensao_imagem, dimensao_imagem)).astype(np.uint8)) # converte para imagem
+                for img, y in zip(X_train, y_train) if y == label # filtra imagens da classe atual
+            ]
+            
+            while len(imagens_classe) < TARGET_POR_CLASSE: # enquanto não atingir o target
+                img_base = random.choice(imagens_classe)
+                nova = img_base.copy()
+                tipo = random.randint(1, 5)
 
-            if tipo == 1:
-                nova = img_base.rotate(random.randint(-10, 10))
-            elif tipo == 2:
-                enhancer = ImageEnhance.Brightness(img_base)
-                nova = enhancer.enhance(random.uniform(0.5, 1.5))
-            elif tipo == 3:
-                enhancer = ImageEnhance.Contrast(img_base)
-                nova = enhancer.enhance(random.uniform(0.5, 1.5))
-            elif tipo == 4:
-                enhancer = ImageEnhance.Sharpness(img_base)
-                nova = enhancer.enhance(random.uniform(0.5, 1.5))
+                if tipo == 1:
+                    nova = img_base.rotate(random.randint(-10, 10))
+                elif tipo == 2:
+                    enhancer = ImageEnhance.Brightness(img_base)
+                    nova = enhancer.enhance(random.uniform(0.5, 1.5))
+                elif tipo == 3:
+                    enhancer = ImageEnhance.Contrast(img_base)
+                    nova = enhancer.enhance(random.uniform(0.5, 1.5))
+                elif tipo == 4:
+                    enhancer = ImageEnhance.Sharpness(img_base)
+                    nova = enhancer.enhance(random.uniform(0.5, 1.5))
 
-            imagens_classe.append(nova)
+                imagens_classe.append(nova)
 
-        for img in imagens_classe:
-            img_np = np.array(img)
-            X_train_aug.append(img_np.reshape(32, 32, 1)) # mantém a dimensão original
-            y_train_aug.append(label)
+            for img in imagens_classe:
+                img_np = np.array(img)
+                X_train_aug.append(img_np.reshape(dimensao_imagem, dimensao_imagem, 1)) # mantém a dimensão original
+                y_train_aug.append(label)
 
-    X_train = np.array(X_train_aug)
-    y_train = np.array(y_train_aug)
+        X_train = np.array(X_train_aug)
+        y_train = np.array(y_train_aug)
+    
     # -------------------------------------------------------
 
-    # Achata as imagens para usar no KNN
+    # achata as imagens para usar no KNN
     X_train_flat = X_train.reshape((X_train.shape[0], -1))
     X_test_flat = X_test.reshape((X_test.shape[0], -1))
 
@@ -119,8 +125,11 @@ cm_total = np.sum(matrizes_confusao, axis=0)
 #plot da matriz de confusão
 plt.figure(figsize=(12, 10))
 sns.heatmap(cm_total, annot=True, fmt='d', cmap='Blues')
-plt.title("Matriz de Confusão - Soma das 10 Iterações")
+if data_augmentation_flag:
+    plt.title(f"Matriz de Confusão - Soma das 10 Iterações (Com Data Augmentation no Treino)\nDimensão das imagens {dimensao_imagem}x{dimensao_imagem}")
+else:
+    plt.title(f"Matriz de Confusão - Soma das 10 Iterações (Sem Data Augmentation)\nDimensão das imagens {dimensao_imagem}x{dimensao_imagem}")
 plt.xlabel("Classe Predita")
 plt.ylabel("Classe Verdadeira")
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0, 1, 0.98])
 plt.show()
