@@ -1,7 +1,8 @@
 import os
 import numpy as np
-from PIL import Image, ImageOps
+from PIL import Image, ImageEnhance
 from sklearn.model_selection import train_test_split
+import random
 
 # caminho para os diretórios das classes (0 a 24)
 base_dir = 'dataset'
@@ -24,22 +25,26 @@ for label in range(25):
             imagens_classe.append(img)
 
     # Geração de imagens adicionais para balancear o dataset
-    transformacoes = ['mirror', 'rotate+10', 'rotate-10']
-    idx = 0
-
+    '''
     while len(imagens_classe) < TARGET_IMAGENS_POR_CLASSE:
-        img = imagens_classe[idx % len(imagens_classe)]
-        tipo = transformacoes[idx % len(transformacoes)]
+        img_base = random.choice(imagens_classe)  # escolhe uma imagem aleatória da classe
+        variacao = random.randint(1, 5)  # número de variações a serem criadas
+        nova = img_base.copy()  # cria uma cópia da imagem base
 
-        if tipo == 'mirror':
-            nova = ImageOps.mirror(img)
-        elif tipo == 'rotate+10':
-            nova = img.rotate(10)
-        elif tipo == 'rotate-10':
-            nova = img.rotate(-10)
+        if variacao == 1:
+            nova = img_base.rotate(random.randint(-10, 10))
+        elif variacao == 2:
+            enhancer = ImageEnhance.Brightness(img_base) # ajuste de brilho
+            nova = enhancer.enhance(random.uniform(0.5, 1.5))
+        elif variacao == 3:
+            enhancer = ImageEnhance.Contrast(img_base) # ajuste de contraste
+            nova = enhancer.enhance(random.uniform(0.5, 1.5))
+        elif variacao == 4:
+            enhancer = ImageEnhance.Sharpness(img_base) # ajuste de nitidez
+            nova = enhancer.enhance(random.uniform(0.5, 1.5))
 
         imagens_classe.append(nova)
-        idx += 1
+    '''
     # -------------------------------------------------------
 
     for img in imagens_classe:
