@@ -2,6 +2,8 @@ from PIL import Image
 import numpy as np
 import os
 
+from variaveis import remover_bordas_flag
+
 def remover_bordas(img):
    img_np = np.array(img)
    #cria uma máscara com os pixels não brancos (fazem parte do caractere)
@@ -18,7 +20,8 @@ def remover_bordas(img):
 
 def pre_processar_imagem(img, dimensao_imagem):
    img = img.convert('L')  # converte para escala de cinza
-   img = remover_bordas(img)  # remove bordas brancas
+   if remover_bordas_flag:
+      img = remover_bordas(img)  # remove bordas brancas
    img = img.resize((dimensao_imagem, dimensao_imagem))  # redimensiona para 32
    return img
 
