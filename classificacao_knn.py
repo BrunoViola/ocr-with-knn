@@ -9,14 +9,12 @@ from PIL import Image, ImageEnhance
 import random
 
 import graficos_knn
+from variaveis import dimensao_imagem, data_augmentation_flag, remover_bordas_flag
 
 # parâmetros
 k = 5
 num_iteracoes = 10
 TARGET_POR_CLASSE = 300
-
-data_augmentation_flag = 0 # flag para identificar se o data augmentation está sendo realizado
-dimensao_imagem = 32
 
 relatorio_por_classe = defaultdict(lambda: {'precision': [], 'recall': [], 'f1-score': [], 'support': 0}) # dicionário para armazenar as métricas por classe para exibição do classification report final
 
@@ -137,7 +135,8 @@ print(f"F1-Score médio : {np.mean(f1_scores):.4f}")
 
 # cálculo da média do relatório de classificação e salva em arquivo txt
 modo = 'COM_DataAug' if data_augmentation_flag else 'SEM_DataAug'
-arquivo_txt_relatorio = open(f'relatorios_classificacao/relat_{dimensao_imagem}x{dimensao_imagem}_{modo}.txt', 'w')
+remocao_bordas = 'Bordas_REMOVIDAS' if remover_bordas_flag else 'Bordas_NAO_REMOVIDAS'
+arquivo_txt_relatorio = open(f'relatorios_classificacao/relat_{dimensao_imagem}x{dimensao_imagem}_{modo}_{remocao_bordas}.txt', 'w')
 
 print("=== MEDIA DAS METRICAS POR CLASSE (10 iteracoes) ===", file=arquivo_txt_relatorio)
 print("========== Dimensao das imagens:", dimensao_imagem, "x", dimensao_imagem, "==========" , file=arquivo_txt_relatorio)

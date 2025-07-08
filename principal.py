@@ -3,8 +3,7 @@ import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
 import pre_processamento
-
-dimensao_imagem = 32
+from variaveis import dimensao_imagem
 
 # caminho para os diretórios das classes (0 a 24)
 base_dir = 'dataset'
