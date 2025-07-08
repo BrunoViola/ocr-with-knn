@@ -2,20 +2,18 @@ from PIL import Image
 import numpy as np
 import os
 
-def remover_bordas(img_pil):
-   img_np = np.array(img_pil)
-   #print(img_np)
-    # Cria uma máscara com os pixels não brancos (branco = 255)
+def remover_bordas(img):
+   img_np = np.array(img)
+   #cria uma máscara com os pixels não brancos (fazem parte do caractere)
    mask = img_np < 130
 
-    # Encontra os limites (bounding box) do conteúdo real
-   coords = np.argwhere(mask)
-   y0, x0 = coords.min(axis=0)
-   y1, x1 = coords.max(axis=0) + 1  # soma 1 para incluir a borda final
+   #encontra os limites da máscara
+   coords = np.argwhere(mask) # coordenadas dos pixels não brancos
+   y0, x0 = coords.min(axis=0) # encontra o menor valor de y e x
+   y1, x1 = coords.max(axis=0) + 1  # maior valor de y e x, soma 1 para incluir a borda final
 
-    # Corta a imagem
-   recortada = img_pil.crop((x0, y0, x1, y1))
-   #print(np.array(recortada))
+   # corte da imagem
+   recortada = img.crop((x0, y0, x1, y1))
    return recortada
 
 def pre_processar_imagem(img, dimensao_imagem):
@@ -23,3 +21,7 @@ def pre_processar_imagem(img, dimensao_imagem):
    img = remover_bordas(img)  # remove bordas brancas
    img = img.resize((dimensao_imagem, dimensao_imagem))  # redimensiona para 32
    return img
+
+#img = Image.open('dataset/0/AMBV_1_59.jpeg')  # exemplo de uso
+#img = pre_processar_imagem(img, 32)  # pré-processa a imagem
+#img.show()  # exibe a imagem pré-processada
