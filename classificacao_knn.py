@@ -136,7 +136,9 @@ print(f"Revocação média: {np.mean(revocoes):.4f}")
 print(f"F1-Score médio : {np.mean(f1_scores):.4f}")
 
 # cálculo da média do relatório de classificação e salva em arquivo txt
-arquivo_txt_relatorio = open('relatorio_classificacao.txt', 'w')
+modo = 'COM_DataAug' if data_augmentation_flag else 'SEM_DataAug'
+arquivo_txt_relatorio = open(f'relatorios_classificacao/relat_{dimensao_imagem}x{dimensao_imagem}_{modo}.txt', 'w')
+
 print("=== MEDIA DAS METRICAS POR CLASSE (10 iteracoes) ===", file=arquivo_txt_relatorio)
 print("========== Dimensao das imagens:", dimensao_imagem, "x", dimensao_imagem, "==========" , file=arquivo_txt_relatorio)
 print("=============== Com Data Augmentation no Treino ==============" if data_augmentation_flag else "=============== Sem Data Augmentation ==============", file=arquivo_txt_relatorio)
