@@ -2,6 +2,7 @@ import os
 import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
+import pre_processamento
 
 dimensao_imagem = 32
 
@@ -20,8 +21,8 @@ for label in range(25):
     for filename in os.listdir(label_dir):
         if filename.endswith(('.jpeg', '.jpg')):
             img_path = os.path.join(label_dir, filename)
-            img = Image.open(img_path).convert('L')
-            img = img.resize(img_size)
+            img = Image.open(img_path)
+            img = pre_processamento.pre_processar_imagem(img, dimensao_imagem)  # pré-processa a imagem
             imagens_classe.append(img)
 
     for img in imagens_classe:
