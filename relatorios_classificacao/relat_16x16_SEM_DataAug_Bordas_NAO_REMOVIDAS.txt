@@ -1,3 +1,9 @@
+=== MEDIAS APOS 10 ITERACOES ===
+Acuracia media : 0.9450
+Precisao media : 0.9162
+Revocacao media: 0.8721
+F1-Score medio : 0.8884
+
 === MEDIA DAS METRICAS POR CLASSE (10 iteracoes) ===
 ========== Dimensao das imagens: 16 x 16 ==========
 =============== Sem Data Augmentation ==============
