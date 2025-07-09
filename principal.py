@@ -2,8 +2,8 @@ import os
 import numpy as np
 from PIL import Image
 from sklearn.model_selection import train_test_split
-import pre_processamento
-from variaveis import dimensao_imagem
+import src.pre_processamento as pre_processamento
+from src.variaveis import dimensao_imagem
 
 # caminho para os diretórios das classes (0 a 24)
 base_dir = 'dataset'
@@ -60,3 +60,5 @@ print("\nDistribuição no conjunto de teste:")
 classes, counts = np.unique(y_test, return_counts=True)
 for cls, count in zip(classes, counts):
     print(f"Classe {cls}: {count} imagens")
+
+import src.classificacao_knn as classificacao_knn # executando a classificação KNN
