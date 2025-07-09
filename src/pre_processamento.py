@@ -2,7 +2,7 @@ from PIL import Image
 import numpy as np
 import os
 
-from variaveis import remover_bordas_flag
+from src.variaveis import remover_bordas_flag
 
 def remover_bordas(img):
    img_np = np.array(img)

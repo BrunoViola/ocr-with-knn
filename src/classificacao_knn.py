@@ -8,8 +8,8 @@ import seaborn as sns
 from PIL import Image, ImageEnhance
 import random
 
-import graficos_knn
-from variaveis import dimensao_imagem, data_augmentation_flag, remover_bordas_flag
+import src.graficos_knn as graficos_knn
+from src.variaveis import dimensao_imagem, data_augmentation_flag, remover_bordas_flag
 
 # parâmetros
 k = 5
@@ -127,17 +127,19 @@ for i in range(num_iteracoes):
     # -------------------------------------------------------
 
 #resultados finais
-print("=== MÉDIAS APÓS 10 ITERAÇÕES ===")
-print(f"Acurácia média : {np.mean(acuracias):.4f}")
-print(f"Precisão média : {np.mean(precisoes):.4f}")
-print(f"Revocação média: {np.mean(revocoes):.4f}")
-print(f"F1-Score médio : {np.mean(f1_scores):.4f}")
+msg_medias = f"=== MEDIAS APOS 10 ITERACOES ===\nAcuracia media : {np.mean(acuracias):.4f}\nPrecisao media : {np.mean(precisoes):.4f}\nRevocacao media: {np.mean(revocoes):.4f}\nF1-Score medio : {np.mean(f1_scores):.4f}\n"
+print(msg_medias)
 
-# cálculo da média do relatório de classificação e salva em arquivo txt
+# manipulação do nome do arquivo de relatório e abertura do arquivo
 modo = 'COM_DataAug' if data_augmentation_flag else 'SEM_DataAug'
 remocao_bordas = 'Bordas_REMOVIDAS' if remover_bordas_flag else 'Bordas_NAO_REMOVIDAS'
-arquivo_txt_relatorio = open(f'relatorios_classificacao/relat_{dimensao_imagem}x{dimensao_imagem}_{modo}_{remocao_bordas}.txt', 'w')
 
+arquivo_txt_relatorio = open(f'relatorios_classificacao/relat_{dimensao_imagem}x{dimensao_imagem}_{modo}_{remocao_bordas}.txt', 'w')
+# ------------------------------------------------------------------
+
+print(msg_medias, file=arquivo_txt_relatorio) # salva as médias gerais no arquivo
+
+# cálculo da média do relatório de classificação e salva em arquivo txt
 print("=== MEDIA DAS METRICAS POR CLASSE (10 iteracoes) ===", file=arquivo_txt_relatorio)
 print("========== Dimensao das imagens:", dimensao_imagem, "x", dimensao_imagem, "==========" , file=arquivo_txt_relatorio)
 print("=============== Com Data Augmentation no Treino ==============" if data_augmentation_flag else "=============== Sem Data Augmentation ==============", file=arquivo_txt_relatorio)
