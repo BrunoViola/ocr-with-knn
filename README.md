@@ -1,3 +1,5 @@
+# OCR with KNN
+
 ## 3º Atividade - Gerar modelo de Aprendizado de Máquina para classificar as imagens
 
 > Pré-processamento
@@ -26,15 +28,3 @@
 > Pós-processamento
 
 - Caso tenha sido usado alguma transformação nas imagens e seja necessário desfazer para mensurar corretamente as métricas, implementar a restauração após a classificação (nas etapas de treinamento e teste)
-
-## 4º Atividade - Análise dos resultados
-
-> Estruturar os resultados em gráficos e tabelas de forma clara e objetiva. 
-
-- Explique o motivo ou origem dos resultados apresentarem diferenças e quais as evidências que sustentam as conclusões obtidas com os experimentos.
-
-- Para a entrega, crie um diretório na raiz do projeto rotulado com as iníciais da equipe e coloque o notebook e arquivos gerados dentro deste diretório.
-
-- As apresentações começam na próxima aula, no dia 07/07/2025.
-
-- A entrega final será na última segunda-feira do bimestre (21/07/2025).
