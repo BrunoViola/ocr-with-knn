@@ -36,6 +36,7 @@ y = np.array(y)
 # salva os arrays para uso posterior no classificacao_knn.py
 np.savez('dataset_preprocessado.npz', X_total=X, y_total=y)
 
+# ----- exibição de informações sobre o dataset -----
 # divisão treino/teste (80/20)
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
@@ -60,5 +61,7 @@ print("\nDistribuição no conjunto de teste:")
 classes, counts = np.unique(y_test, return_counts=True)
 for cls, count in zip(classes, counts):
     print(f"Classe {cls}: {count} imagens")
+# -----------------------------------------------------
 
+# executa a classificação KNN
 import src.classificacao_knn as classificacao_knn # executando a classificação KNN
