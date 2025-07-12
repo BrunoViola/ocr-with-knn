@@ -1,5 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from src.variaveis import dimensao_imagem, data_augmentation_flag, remover_bordas_flag
+
+# manipulação do nome do arquivo para salvar o gráfico
+modo = 'COM_DataAug' if data_augmentation_flag else 'SEM_DataAug'
+remocao_bordas = 'Bordas_REMOVIDAS' if remover_bordas_flag else 'Bordas_NAO_REMOVIDAS'
+
 
 def plotar_metricas_por_classe(relatorio_por_classe):
    classes = []
@@ -27,4 +33,5 @@ def plotar_metricas_por_classe(relatorio_por_classe):
    plt.title("Métricas por Classe - Média de 10 Iterações")
    plt.legend()
    plt.tight_layout()
+   plt.savefig(f"metricas_por_classe/mpc_{dimensao_imagem}x{dimensao_imagem}_{modo}_{remocao_bordas}.png")
    plt.show()

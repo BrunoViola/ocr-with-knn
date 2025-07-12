@@ -165,6 +165,7 @@ else:
 plt.xlabel("Classe Predita")
 plt.ylabel("Classe Verdadeira")
 plt.tight_layout(rect=[0, 0, 1, 0.98])
+plt.savefig(f'matrizes_de_confusao/mc_{dimensao_imagem}x{dimensao_imagem}_{modo}_{remocao_bordas}.png')
 plt.show()
 
 graficos_knn.plotar_metricas_por_classe(relatorio_por_classe)

@@ -1,11 +1,11 @@
 === MEDIAS APOS 10 ITERACOES ===
 Acuracia media : 0.9358
-Precisao media : 0.9128
+Precisao media : 0.9127
 Revocacao media: 0.8594
-F1-Score medio : 0.8786
+F1-Score medio : 0.8785
 
 === MEDIA DAS METRICAS POR CLASSE (10 iteracoes) ===
-========== Dimensao das imagens: 64 x 64 ==========
+========== Dimensao das imagens: 128 x 128 ==========
 =============== Sem Data Augmentation ==============
 Classe  | Precisao  | Revocacao | F1-Score  | Suporte  
 0       | 0.96      | 0.99      | 0.98      | 325      
@@ -23,7 +23,7 @@ Classe  | Precisao  | Revocacao | F1-Score  | Suporte
 12      | 0.77      | 0.78      | 0.77      | 95       
 13      | 1.00      | 1.00      | 1.00      | 50       
 14      | 0.87      | 0.99      | 0.93      | 370      
-15      | 0.95      | 0.95      | 0.95      | 205      
+15      | 0.94      | 0.95      | 0.94      | 205      
 16      | 0.98      | 0.96      | 0.97      | 220      
 17      | 0.95      | 0.66      | 0.78      | 35       
 18      | 0.93      | 0.98      | 0.95      | 125      
