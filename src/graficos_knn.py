@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+
 from src.variaveis import dimensao_imagem, data_augmentation_flag, remover_bordas_flag
 
 # manipulação do nome do arquivo para salvar o gráfico
@@ -34,4 +36,18 @@ def plotar_metricas_por_classe(relatorio_por_classe):
    plt.legend()
    plt.tight_layout()
    plt.savefig(f"metricas_por_classe/mpc_{dimensao_imagem}x{dimensao_imagem}_{modo}_{remocao_bordas}.png")
+   plt.show()
+
+def plot_matriz_confusao(cm_total):
+   plt.figure(figsize=(12, 10))
+   sns.heatmap(cm_total, annot=True, fmt='d', cmap='Blues')
+
+   info_data_aug_matriz = "Com Data Augmentation no Treino" if data_augmentation_flag else "Sem Data Augmentation"
+   info_rocorte_bordas_matriz = "Removendo Bordas" if remover_bordas_flag else "Sem Remover Bordas"
+
+   plt.title(f"Matriz de Confusão - Soma das 10 Iterações ({info_data_aug_matriz} e {info_rocorte_bordas_matriz})\nDimensão das imagens {dimensao_imagem}x{dimensao_imagem}")
+   plt.xlabel("Classe Predita")
+   plt.ylabel("Classe Verdadeira")
+   plt.tight_layout(rect=[0, 0, 1, 0.98])
+   plt.savefig(f'matrizes_de_confusao/mc_{dimensao_imagem}x{dimensao_imagem}_{modo}_{remocao_bordas}.png')
    plt.show()

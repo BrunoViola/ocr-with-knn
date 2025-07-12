@@ -149,17 +149,5 @@ for classe in sorted(relatorio_por_classe.keys(), key=int):
 #matriz de confusão somada
 cm_total = np.sum(matrizes_confusao, axis=0)
 
-#plot da matriz de confusão
-plt.figure(figsize=(12, 10))
-sns.heatmap(cm_total, annot=True, fmt='d', cmap='Blues')
-if data_augmentation_flag:
-    plt.title(f"Matriz de Confusão - Soma das 10 Iterações (Com Data Augmentation no Treino)\nDimensão das imagens {dimensao_imagem}x{dimensao_imagem}")
-else:
-    plt.title(f"Matriz de Confusão - Soma das 10 Iterações (Sem Data Augmentation)\nDimensão das imagens {dimensao_imagem}x{dimensao_imagem}")
-plt.xlabel("Classe Predita")
-plt.ylabel("Classe Verdadeira")
-plt.tight_layout(rect=[0, 0, 1, 0.98])
-plt.savefig(f'matrizes_de_confusao/mc_{dimensao_imagem}x{dimensao_imagem}_{modo}_{remocao_bordas}.png')
-plt.show()
-
+graficos_knn.plot_matriz_confusao(cm_total)
 graficos_knn.plotar_metricas_por_classe(relatorio_por_classe)
