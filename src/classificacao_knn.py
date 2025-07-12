@@ -20,14 +20,8 @@ relatorio_por_classe = defaultdict(lambda: {'precision': [], 'recall': [], 'f1-s
 
 # carrega o dataset pré-processado
 data = np.load('dataset_preprocessado.npz')
-X_train_total = data['X_train']
-y_train_total = data['y_train']
-X_test_total = data['X_test']
-y_test_total = data['y_test']
-
-# junta tudo para reembaralhar nas iterações
-X_total = np.concatenate((X_train_total, X_test_total), axis=0)
-y_total = np.concatenate((y_train_total, y_test_total), axis=0)
+X_total = data['X_total']
+y_total = data['y_total']
 
 # inicializa listas para armazenar resultados
 acuracias = []

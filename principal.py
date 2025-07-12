@@ -33,13 +33,13 @@ for label in range(25):
 X = np.array(X).reshape(-1, dimensao_imagem, dimensao_imagem, 1)
 y = np.array(y)
 
+# salva os arrays para uso posterior no classificacao_knn.py
+np.savez('dataset_preprocessado.npz', X_total=X, y_total=y)
+
 # divisão treino/teste (80/20)
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
-
-# salva os arrays para uso posterior
-np.savez('dataset_preprocessado.npz', X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test)
 
 # exibe as quantidades
 print(f"Imagens carregadas: {len(X)}")
