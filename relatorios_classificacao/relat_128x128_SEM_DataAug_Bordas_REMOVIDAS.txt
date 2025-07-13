@@ -5,7 +5,7 @@ Revocacao media: 0.9617
 F1-Score medio : 0.9663
 
 === MEDIA DAS METRICAS POR CLASSE (10 iteracoes) ===
-========== Dimensao das imagens: 64 x 64 ==========
+========== Dimensao das imagens: 128 x 128 ==========
 =============== Sem Data Augmentation ==============
 Classe  | Precisao  | Revocacao | F1-Score  | Suporte  
 0       | 0.99      | 1.00      | 1.00      | 650      
