@@ -35,6 +35,8 @@ print(f"Iniciando treino e teste com k-NN (k = {k})...\n")
 for i in range(num_iteracoes):
     print(f"--- Iteração {i+1} ---")
     
+    random.seed(i)  # garante reprodutibilidade
+    
     #divide os dados
     X_train, X_test, y_train, y_test = train_test_split(
         X_total, y_total, test_size=0.2, stratify=y_total, random_state=i
