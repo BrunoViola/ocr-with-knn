@@ -1,10 +1,36 @@
-# OCR with KNN
+# K-Nearest Neighbors para OCR
+Utilizamos neste trabalho o KNN para o reconhecimento de caracteres do alfabeto Iorubá.
 
-## 3º Atividade - Gerar modelo de Aprendizado de Máquina para classificar as imagens
+## Participantes
+Artur Massaro Cremonez <br>
+Bruno Henrique Silva Viola
+
+# O que foi feito?
+Iniciamos pelo pré-processamento, realizando a conversão das imagens para a escala de cinza. Construímos a possibilidade do recorte das bordas brancas dos caracteres (essa opção deve ser ativada por uma flag). Por fim, o redimensionamento das imagens é executado (por padrão, 32x32. No
+## Estrutura do repositório
+- `matrizes_de_confusao`: 
+- `metricas_por_classe`:
+- `relatorios_classificacao`:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 > Pré-processamento
-
-- Adequar e organizar as imagens para estruturar os conjuntos de `treinamento` e `teste`.
+- Realizamos a conversão da imagem para a escala de cinza.
 - Possibilidades:
 - - Adequação de cores
 - - Adequação de dimensões
