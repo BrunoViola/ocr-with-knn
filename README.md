@@ -1,6 +1,6 @@
 # K-Nearest Neighbors para OCR
 
-Utilizamos neste trabalho o KNN para o reconhecimento de caracteres do alfabeto Iorubá.
+Neste projeto, utilizamos o algoritmo <strong>k-Nearest Neighbors (k-NN)</strong> para realizar o reconhecimento automático de caracteres do alfabeto Iorubá a partir de imagens pré-processadas. Esse processo se enquadra no contexto de <strong>OCR (<em>Optical Character Recognition</em>)</strong>, onde o objetivo é identificar o caractere representado pela imagem. O k-NN foi escolhido por ser um método simples, interpretável e eficiente em problemas de classificação baseados em similaridade.
 
 ## Participantes
 
