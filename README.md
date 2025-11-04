@@ -76,8 +76,8 @@ Métricas de Avaliação: Foram avaliadas duas categorias de métricas.
 ### 📌 Cenário 1: **Sem Data Augmentation, Sem Recorte de Bordas**
 
 - 📝 [`relat_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.txt`](relatorios_classificacao/relat_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.txt)  
-- 📊 Matriz de confusão:![](matrizes_de_confusao/mc_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.png)  
-- 📈 Métricas por classe:![](metricas_por_classe/mpc_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.png)
+- 📊 Matriz de confusão:![Matriz de confusão OCR com KNN - sem data augmentation e sem recorte de bordas](matrizes_de_confusao/mc_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.png)  
+- 📈 Métricas por classe:![Métricas por classe OCR com KNN - sem data augmentation e sem recorte de bordas](metricas_por_classe/mpc_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.png)
 
 | Métricas (após 10 iterações) | Valor   |
 |------------------------------|---------|
@@ -102,8 +102,8 @@ Para lidar com desbalanceamento entre classes, aplicamos transformações aleat�
 Objetivo: garantir **300 exemplos por classe**.
 
 - 📝 [`relat_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.txt`](relatorios_classificacao/relat_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.txt)  
-- 📊 Matriz de confusão:![](matrizes_de_confusao/mc_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.png)  
-- 📈 Métricas por classe:![](metricas_por_classe/mpc_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.png)
+- 📊 Matriz de confusão:![Matriz de confusão OCR com KNN - com data augmentation e sem recorte de bordas](matrizes_de_confusao/mc_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.png)  
+- 📈 Métricas por classe:![Métricas por classe OCR com KNN - com data augmentation e sem recorte de bordas](metricas_por_classe/mpc_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.png)
 
 | Métricas (após 10 iterações) | Valor  | Ganho/Perda em relação ao cenário 1 |
 |------------------------------|--------|-------------------------------------|
@@ -117,8 +117,8 @@ Objetivo: garantir **300 exemplos por classe**.
 ### 📌 Cenário 3: **Com Data Augmentation e Recorte de Bordas**
 
 - 📝 [`relat_32x32_COM_DataAug_Bordas_REMOVIDAS.txt`](relatorios_classificacao/relat_32x32_COM_DataAug_Bordas_REMOVIDAS.txt)  
-- 📊 Matriz de confusão:![](matrizes_de_confusao/mc_32x32_COM_DataAug_Bordas_REMOVIDAS.png)  
-- 📈 Métricas por classe:![](metricas_por_classe/mpc_32x32_COM_DataAug_Bordas_REMOVIDAS.png)
+- 📊 Matriz de confusão:![Matriz de confusão OCR com KNN - com data augmentation e com recorte de bordas](matrizes_de_confusao/mc_32x32_COM_DataAug_Bordas_REMOVIDAS.png)  
+- 📈 Métricas por classe:![Métricas por classe OCR com KNN - com data augmentation e com recorte de bordas](metricas_por_classe/mpc_32x32_COM_DataAug_Bordas_REMOVIDAS.png)
 
 | Métricas (após 10 iterações) | Valor  | Ganho/Perda em relação ao cenário 2 |
 |------------------------------|--------|---------------------------|
