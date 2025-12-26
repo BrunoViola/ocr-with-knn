@@ -1,5 +1,8 @@
 # K-Nearest Neighbors for OCR
 
+📄 Read this in other languages:
+- 🇧🇷 [Português](README.pt-BR.md)
+
 In this project, we use the <strong>k-Nearest Neighbors (k-NN)</strong> algorithm to perform automatic recognition of characters from the Yoruba alphabet based on preprocessed images. This process falls within the context of <strong>OCR (<em>Optical Character Recognition</em>)</strong>, where the goal is to identify the character represented by an image. KNN was chosen for being a simple, interpretable, and effective method for similarity-based classification problems.
 
 ## Participants
