@@ -1,23 +1,23 @@
-# K-Nearest Neighbors para OCR
+# K-Nearest Neighbors for OCR
 
-Neste projeto, utilizamos o algoritmo <strong>k-Nearest Neighbors (k-NN)</strong> para realizar o reconhecimento automático de caracteres do alfabeto Iorubá a partir de imagens pré-processadas. Esse processo se enquadra no contexto de <strong>OCR (<em>Optical Character Recognition</em>)</strong>, onde o objetivo é identificar o caractere representado pela imagem. O k-NN foi escolhido por ser um método simples, interpretável e eficiente em problemas de classificação baseados em similaridade.
+In this project, we use the <strong>k-Nearest Neighbors (k-NN)</strong> algorithm to perform automatic recognition of characters from the Yoruba alphabet based on preprocessed images. This process falls within the context of <strong>OCR (<em>Optical Character Recognition</em>)</strong>, where the goal is to identify the character represented by an image. KNN was chosen for being a simple, interpretable, and effective method for similarity-based classification problems.
 
-## Participantes
+## Participants
 
 Artur Massaro Cremonez  
 Bruno Henrique Silva Viola
 
 ---
 
-## O que foi feito?
+## What was done?
 
-Iniciamos pelo pré-processamento, realizando a conversão das imagens para a escala de cinza. Construímos a possibilidade de recorte das bordas brancas dos caracteres (essa opção deve ser ativada por uma flag). Por fim, executamos o redimensionamento das imagens para `32x32` pixels.
+We started with image preprocessing, converting the images to grayscale. We implemented an option to crop the white borders around the characters (this option can be enabled via a flag). Finally, the images were resized to `32x32` pixels.
 
 ---
 
-## Estrutura do Repositório
+## Repository Structure
 
-Outros experimentos foram realizados com diferentes resoluções de imagem (`16x16`, `64x64`, `128x128`, etc.). Os resultados podem ser encontrados nas pastas:
+Additional experiments were carried out using different image resolutions (`16x16`, `64x64`, `128x128`, etc.). The results can be found in the following folders:
 
 - 📁 `matrizes_de_confusao/`
 - 📁 `metricas_por_classe/`
@@ -25,117 +25,124 @@ Outros experimentos foram realizados com diferentes resoluções de imagem (`16x
 
 ---
 
-## Metodologia
+## Methodology
 
-- 🔍 Algoritmo: `KNeighborsClassifier` com `k=5`
-- 🔁 Execução em **10 iterações** com seeds diferentes
-- 🔀 Divisão dos dados: **80% treino / 20% teste**
-- 📉 Imagens achatadas (`flatten`) para entrada no modelo
+- 🔍 Algorithm: `KNeighborsClassifier` with `k=5`
+- 🔁 Execution over **10 iterations** using different random seeds
+- 🔀 Data split: **80% training / 20% testing**
+- 📉 Images flattened before being fed into the model
 
-Métricas de Avaliação: Foram avaliadas duas categorias de métricas.
+### Evaluation Metrics
 
-- 📊 **Métricas gerais (médias ao final das 10 iterações):**
-  - Acurácia
-  - Precisão
-  - Revocação
+Two categories of metrics were evaluated:
+
+- 📊 **Overall metrics (averaged after 10 iterations):**
+  - Accuracy
+  - Precision
+  - Recall
   - F1-Score
 
-- 📈 **Métricas por classe:**
-  - Precisão por classe
-  - Revocação por classe
-  - F1-Score por classe
+- 📈 **Per-class metrics:**
+  - Precision per class
+  - Recall per class
+  - F1-Score per class
 
 ---
 
 ## Pipeline
 
-### ▶️ Pré-processamento
+### ▶️ Preprocessing
 
-- Conversão para escala de cinza
-- Possibilidades:
-  - Adequação de cores
-  - Adequação de dimensões
-  - Balanceamento entre as classes (via data augmentation)
-  - Estruturação dos dados por classe
+- Conversion to grayscale
+- Options:
+  - Color normalization
+  - Dimension normalization
+  - Class balancing (via data augmentation)
+  - Data organization by class
 
-### ▶️ Treinamento/Teste
+### ▶️ Training / Testing
 
-- Execução do KNN por 10 iterações
-- Registro de métricas por iteração e por classe
-- Salvar arquivos com resultados em `.txt`, `.png`, etc.
+- Execution of KNN over 10 iterations
+- Recording metrics per iteration and per class
+- Saving result files in `.txt`, `.png`, etc.
 
-### ▶️ Pós-processamento
+### ▶️ Post-processing
 
-- Geração de gráficos e matrizes de confusão acumuladas
-- Nomeação dos arquivos com tags indicando as configurações (e.g., `COM_DataAug`, `Bordas_REMOVIDAS`)
+- Generation of accumulated plots and confusion matrices
+- File naming with tags indicating the configuration used (e.g., `COM_DataAug`, `Bordas_REMOVIDAS`)
 
 ---
 
-## Resultados
+## Results
 
-### 📌 Cenário 1: **Sem Data Augmentation, Sem Recorte de Bordas**
+### 📌 Scenario 1: **Without Data Augmentation, Without Border Cropping**
 
 - 📝 [`relat_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.txt`](relatorios_classificacao/relat_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.txt)  
-- 📊 Matriz de confusão:![Matriz de confusão OCR com KNN - sem data augmentation e sem recorte de bordas](matrizes_de_confusao/mc_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.png)  
-- 📈 Métricas por classe:![Métricas por classe OCR com KNN - sem data augmentation e sem recorte de bordas](metricas_por_classe/mpc_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.png)
+- 📊 Confusion matrix:  
+  ![OCR confusion matrix with KNN - without data augmentation and without border cropping](matrizes_de_confusao/mc_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.png)  
+- 📈 Per-class metrics:  
+  ![OCR per-class metrics with KNN - without data augmentation and without border cropping](metricas_por_classe/mpc_32x32_SEM_DataAug_Bordas_NAO_REMOVIDAS.png)
 
-| Métricas (após 10 iterações) | Valor   |
-|------------------------------|---------|
-| Acurácia média               | 0.9434  |
-| Precisão média               | 0.9139  |
-| Revocação média              | 0.8620  |
-| F1-Score médio               | 0.8801  |
+| Metrics (after 10 iterations) | Value  |
+|-------------------------------|--------|
+| Average accuracy              | 0.9434 |
+| Average precision             | 0.9139 |
+| Average recall                | 0.8620 |
+| Average F1-score              | 0.8801 |
 
 ---
 
-### 📌 Cenário 2: **Com Data Augmentation, Sem Recorte de Bordas**
+### 📌 Scenario 2: **With Data Augmentation, Without Border Cropping**
 
 #### Data Augmentation
 
-Para lidar com desbalanceamento entre classes, aplicamos transformações aleatórias no conjunto de treino:
+To address class imbalance, random transformations were applied to the training set:
 
-- 🔄 Rotação aleatória entre -10° e +10°  
-- 💡 Brilho entre 0.5 e 1.5  
-- 🎚️ Contraste entre 0.5 e 1.5  
-- ✨ Nitidez entre 0.5 e 1.5  
+- 🔄 Random rotation between -10° and +10°  
+- 💡 Brightness adjustment between 0.5 and 1.5  
+- 🎚️ Contrast adjustment between 0.5 and 1.5  
+- ✨ Sharpness adjustment between 0.5 and 1.5  
 
-Objetivo: garantir **300 exemplos por classe**.
+Objective: ensure **300 samples per class**.
 
 - 📝 [`relat_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.txt`](relatorios_classificacao/relat_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.txt)  
-- 📊 Matriz de confusão:![Matriz de confusão OCR com KNN - com data augmentation e sem recorte de bordas](matrizes_de_confusao/mc_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.png)  
-- 📈 Métricas por classe:![Métricas por classe OCR com KNN - com data augmentation e sem recorte de bordas](metricas_por_classe/mpc_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.png)
+- 📊 Confusion matrix:  
+  ![OCR confusion matrix with KNN - with data augmentation and without border cropping](matrizes_de_confusao/mc_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.png)  
+- 📈 Per-class metrics:  
+  ![OCR per-class metrics with KNN - with data augmentation and without border cropping](metricas_por_classe/mpc_32x32_COM_DataAug_Bordas_NAO_REMOVIDAS.png)
 
-| Métricas (após 10 iterações) | Valor  | Ganho/Perda em relação ao cenário 1 |
-|------------------------------|--------|-------------------------------------|
-| Acurácia média               | 0.9649 | + 0.0215                            |
-| Precisão média               | 0.9409 | + 0.0270                            |
-| Revocação média              | 0.9449 | + 0.0829                            |
-| F1-Score médio               | 0.9395 | + 0.0594                            |
+| Metrics (after 10 iterations) | Value  | Gain/Loss compared to Scenario 1 |
+|-------------------------------|--------|----------------------------------|
+| Average accuracy              | 0.9649 | + 0.0215                         |
+| Average precision             | 0.9409 | + 0.0270                         |
+| Average recall                | 0.9449 | + 0.0829                         |
+| Average F1-score              | 0.9395 | + 0.0594                         |
 
 ---
 
-### 📌 Cenário 3: **Com Data Augmentation e Recorte de Bordas**
+### 📌 Scenario 3: **With Data Augmentation and Border Cropping**
 
 - 📝 [`relat_32x32_COM_DataAug_Bordas_REMOVIDAS.txt`](relatorios_classificacao/relat_32x32_COM_DataAug_Bordas_REMOVIDAS.txt)  
-- 📊 Matriz de confusão:![Matriz de confusão OCR com KNN - com data augmentation e com recorte de bordas](matrizes_de_confusao/mc_32x32_COM_DataAug_Bordas_REMOVIDAS.png)  
-- 📈 Métricas por classe:![Métricas por classe OCR com KNN - com data augmentation e com recorte de bordas](metricas_por_classe/mpc_32x32_COM_DataAug_Bordas_REMOVIDAS.png)
+- 📊 Confusion matrix:  
+  ![OCR confusion matrix with KNN - with data augmentation and border cropping](matrizes_de_confusao/mc_32x32_COM_DataAug_Bordas_REMOVIDAS.png)  
+- 📈 Per-class metrics:  
+  ![OCR per-class metrics with KNN - with data augmentation and border cropping](metricas_por_classe/mpc_32x32_COM_DataAug_Bordas_REMOVIDAS.png)
 
-| Métricas (após 10 iterações) | Valor  | Ganho/Perda em relação ao cenário 2 |
-|------------------------------|--------|---------------------------|
-| Acurácia média               | 0.9817 | + 0.0168                  |
-| Precisão média               | 0.9746 | + 0.0337                  |
-| Revocação média              | 0.9789 | + 0.0340                  |
-| F1-Score médio               | 0.9748 | + 0.0353                  |
-
----
-
-## Conclusão
-
-Mesmo com um classificador simples como o KNN, obtivemos ótimos resultados no reconhecimento de caracteres iorubás. As técnicas aplicadas no pré-processamento tiveram papel fundamental no desempenho do modelo.
-
-A combinação de **data augmentation** com **recorte das bordas** resultou no melhor cenário testado, atingindo uma acurácia média de **98.17%**. Esses resultados demonstram que o cuidado com o tratamento das imagens pode ser tão ou mais importante que a escolha do algoritmo em si, especialmente em tarefas de classificação visual com dados desbalanceados.
-
-Além disso, foi possível observar que letras com poucos exemplos, que inicialmente não eram reconhecidas, passaram a ser corretamente classificadas com o uso do **data augmentation** e melhoraram ainda mais após o recorte das bordas. Isso reforça a importância dessas etapas para garantir que todas as classes sejam representadas e avaliadas de forma justa.
+| Metrics (after 10 iterations) | Value  | Gain/Loss compared to Scenario 2 |
+|-------------------------------|--------|----------------------------------|
+| Average accuracy              | 0.9817 | + 0.0168                         |
+| Average precision             | 0.9746 | + 0.0337                         |
+| Average recall                | 0.9789 | + 0.0340                         |
+| Average F1-score              | 0.9748 | + 0.0353                         |
 
 ---
 
+## Conclusion
+
+Even with a simple classifier such as KNN, we achieved excellent results in the recognition of Yoruba characters. The preprocessing techniques played a fundamental role in the model’s performance.
+
+The combination of **data augmentation** and **border cropping** produced the best tested scenario, achieving an average accuracy of **98.17%**. These results demonstrate that careful image preprocessing can be as important as — or even more important than — the choice of the algorithm itself, especially in visual classification tasks with imbalanced data.
+
+Additionally, characters with few original samples, which were initially not recognized, became correctly classified after applying **data augmentation**, and their performance improved even further after border cropping. This reinforces the importance of these steps to ensure that all classes are fairly represented and properly evaluated.
+
+---
